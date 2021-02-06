@@ -6,7 +6,11 @@ import NextDaysWeather from './components/views/NextDaysWeather'
 import NotFound from './components/views/NotFound'
 // import './App.css';
 
+
 export default function App() {
+
+ 
+
   return (
     <BrowserRouter>
       <Switch>
