@@ -20,8 +20,6 @@ export default function WeatherButton(props) {
                         id="option2" 
                         autoComplete="off"/> 5 days
                 </label>
-
-
         </div>
     );
 }

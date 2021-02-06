@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import WeatherImput from '../Weather/WeatherImput';
+import WeatherInput from '../Weather/WeatherInput';
 import WeatherButton from '../Weather/WeatherButton';
-// import TodayWheater from '../views/TodayWeather';
-import Api from '../data'
-import TodayWheaterInfo from '../TodayWeather/TodayWheaterInfo';
+import MoreWeatherInfo from '../TodayWeather/MoreWeatherInfo';
+import TodayWeatherInfo from '../TodayWeather/TodayWheaterInfo';
 
+import Api from '../data';
 
 
 export default function Weather() {
@@ -24,29 +24,25 @@ export default function Weather() {
          }
        }
 
-  
-
-    // const getWeather = e => {
-    //     console.log('submiting');
-    // }
     return (
         
     <div className='container p-4 '>
         <div className='row'>
-            <div className='col-md-4 mx-auto'>
-                <WeatherImput
+            <div className='col-md-8 mx-auto'>
+                <WeatherInput
                     data={Api}
                     query={query}
                     setQuery={setQuery}
                     search={search}
                     />
                 <WeatherButton/>
-                {(typeof weather.main != "undefined") ? (
-                        <TodayWheaterInfo
-                        weather={weather}/>
 
+                {(typeof weather.main != "undefined") ? (
+                        <TodayWeatherInfo
+                        weather={weather}/>
                 ) : ('')}
                 
+                <MoreWeatherInfo/>
             </div>
         </div>
     </div>
