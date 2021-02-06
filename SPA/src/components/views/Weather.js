@@ -4,25 +4,35 @@ import WeatherButton from '../Weather/WeatherButton';
 import MoreWeatherInfo from '../TodayWeather/MoreWeatherInfo';
 import TodayWeatherInfo from '../TodayWeather/TodayWheaterInfo';
 
-import Api from '../data';
+import {Api} from '../data';
 
 
 export default function Weather() {
 
     const [query, setQuery] = useState('');
     const [weather, setWeather] = useState({})
+    const [nextDays, setNextDays] = useState({})
   
     const search = location => {
+        
         if (location.key === "Enter") {
-           fetch(`${Api.base}weather?q=${query}&units=metric&APPID=${Api.key}`)
-             .then(res => res.json())
-             .then(result => {
-                 setWeather(result);
-                 setQuery('');
-                 console.log(result);
-              } )
-         }
-       }
+            Promise.all([
+                fetch(`${Api.base}weather?q=${query}&units=metric&APPID=${Api.key}`),
+                fetch(`${Api.base}forecast?q=${query}&units=metric&APPID=${Api.key}`)
+            ])
+            .then(async ([today, fiveDays]) => {
+                const a = await today.json();
+                const b = await fiveDays.json()
+                setWeather(a);
+                setNextDays(b);
+                setQuery('');
+                console.log(a,b)
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        }}
+
 
     return (
         

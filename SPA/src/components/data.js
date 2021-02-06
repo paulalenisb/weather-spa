@@ -4,4 +4,9 @@ const Api = {
     base: 'https://api.openweathermap.org/data/2.5/'
   }
   
-  export default Api
+  const ApiNext = {
+    key: '7de64b624c60c1e3a2f491d2d252b826',
+    base: 'https://api.openweathermap.org/data/2.5/'
+  }
+
+  export {Api, ApiNext}
