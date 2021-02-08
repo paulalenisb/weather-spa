@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import WeatherInput from '../Weather/WeatherInput';
-import WeatherButton from '../Weather/WeatherButton';
-import MoreWeatherInfo from '../TodayWeather/MoreWeatherInfo';
 import TodayWeatherInfo from '../TodayWeather/TodayWheaterInfo';
-
+import {
+    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+  } from 'recharts';
 
 import {Api} from '../data';
-import ChartWeather from '../NextDaysWeather/ChartWeather'
-
 
 export default function Weather() {
 
     const [query, setQuery] = useState('');
-    const [weather, setWeather] = useState({})
-    const [nextDays, setNextDays] = useState({})
+    const [weather, setWeather] = useState({});
+    const [nextDays, setNextDays] = useState({});
+    const [date, setDate] = useState('today')
 
     const search = location => {
         
@@ -23,39 +22,39 @@ export default function Weather() {
                 fetch(`${Api.base}forecast?q=${query}&units=metric&APPID=${Api.key}`)
             ])
             .then(async ([today, fiveDays]) => {
-                const a = await today.json();
-                const b = await fiveDays.json()
-                setWeather(a);
-                setNextDays(b);
+                const currentlyWeather = await today.json();
+                const nextDaysForecast = await fiveDays.json()
+                setWeather(currentlyWeather);
+                setNextDays(nextDaysForecast);
                 setQuery('');
-                console.log(a,b)
+                console.log(currentlyWeather,nextDaysForecast)
             })
             .catch((err) => {
                 console.log(err);
             })
         }}
 
-        console.log(nextDays.list);
-
         const forecast = nextDays.list;
-        
 
         console.log(forecast);
 
         const weather5Days = []
+        let data = []
 
-        // useEffect(() => {
-            
-            
-                
-        // }, [forecast, weather5Days])
-        
+
         if (typeof nextDays.list != "undefined") {
             for (let i = 0; i < forecast.length; i += 8) {
-             weather5Days.push(forecast[i])}
+                weather5Days.push(forecast[i])};
+
+            data = [
+                {day: `${weather5Days[0].dt_txt.slice(8,10)}`, temp_min: `${weather5Days[0].main.temp_min}`, temp_max: `${weather5Days[0].main.temp_max}`, time:  `${weather5Days[0].weather.main}` },
+                {day: `${weather5Days[1].dt_txt.slice(8,10)}`, temp_min: `${weather5Days[1].main.temp_min}`, temp_max: `${weather5Days[1].main.temp_max}`,},
+                {day: `${weather5Days[2].dt_txt.slice(8,10)}`, temp_min: `${weather5Days[2].main.temp_min}`, temp_max: `${weather5Days[2].main.temp_max}`},
+                {day: `${weather5Days[3].dt_txt.slice(8,10)}`, temp_min: `${weather5Days[3].main.temp_min}`, temp_max: `${weather5Days[3].main.temp_max}`,},
+                {day: `${weather5Days[4].dt_txt.slice(8,10)}`, temp_min: `${weather5Days[4].main.temp_min}`, temp_max: `${weather5Days[4].main.temp_max}`,}
+            ]
         }
 
- 
         
     return (
         
@@ -68,39 +67,58 @@ export default function Weather() {
                     setQuery={setQuery}
                     search={search}
                     />
-                <WeatherButton/>
 
-                {(typeof weather.main != "undefined") ? (
+                <div className="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label className="btn btn-primary active">
+                        <input 
+                            type="radio" 
+                            name="options" 
+                            id="option1" 
+                            autoComplete="off" 
+                            onClick={(e) => setDate(e.target.value)}
+                            value='today'
+                            /> Today
+                    </label>
+                    <label className="btn btn-primary">
+                        <input 
+                            type="radio" 
+                            name="options" 
+                            id="option2" 
+                            autoComplete="off"
+                            onClick={(e) => setDate(e.target.value)}
+                            value='days'/> 5 days
+                    </label>
+                    </div>
+
+                {(typeof weather.main != "undefined") && (date==='today') ? (
                    <div>
                         <TodayWeatherInfo
-                        weather={weather}/>
-                        
+                        weather={weather}/>         
                    </div> 
                 ) : ('')}
 
-                {(typeof nextDays.list != "undefined") ? (
-                    
-                    weather5Days.map((days, index) => (
-                        <ChartWeather
-                        key={`${index}chart`}
-                        nextDays={nextDays}
-                        days={days}/>
-                    )
-                    )
-
-                ) : ('')}
-
-                
-                {/* {(typeof nextDays.main != "undefined") ? (
-                    forecast.map((list, index) => (
-                        <ChartWeather
-                            key={`${index}chart`}
-                            nextDays={nextDays}
-                            list={list} />
-                    ))
-                ) : ('')} */}
-
-                <MoreWeatherInfo/>
+                {(typeof nextDays.list != "undefined")  && (date==='days') ? (
+                    <div>
+                        <div className="card">
+                            <div className="card-body">
+                                <LineChart
+                                    width={500}
+                                    height={300}
+                                    data={data}
+                                    margin={{top: 5, right: 30, left: 20, bottom: 5,}}>
+                                            <CartesianGrid strokeDasharray="3 3" />
+                                            <XAxis dataKey='day'/>
+                                            <XAxis dataKey='time'/>
+                                            <YAxis domain={[0, ' + 1000']}          allowDataOverflow={true} />
+                                            <Tooltip />
+                                            <Legend />
+                                            <Line type="monotone"                   dataKey='temp_min' stroke="#4582ec" activeDot={{ stroke: 'red', strokeWidth: 2, r: 1}} />
+                                            <Line type="monotone" dataKey='temp_max'  stroke="#000" activeDot={{ r: 8 }} />
+                                    </LineChart>
+                            </div>
+                        </div>
+                    </div>
+                ) : ('')} 
             </div>
         </div>
     </div>
