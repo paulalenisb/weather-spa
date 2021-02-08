@@ -49,7 +49,7 @@ export default function ChartWeather( {nextDays, days} ) {
                 <div className="card">
                     <div className="card-body">
                     {/* <h5 className="card-title">Hola{list[0].dt}</h5> */}
-                    <h5 className="card-title">Hola{days.dt_txt}, {days.main.temp_max}, {days.main.temp_min}, {days.weather[0].main}</h5>
+                    <h5 className="card-title">{days.dt_txt}, {days.main.temp_max}, {days.main.temp_min}, {days.weather[0].main}</h5>
                     <LineChart
                         width={800}
                         height={500}
