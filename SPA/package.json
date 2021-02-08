@@ -2,6 +2,7 @@
   "name": "src",
   "version": "0.1.0",
   "private": true,
+  "home": "http://paulalenisb.github.io/weather-spa",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
@@ -11,8 +12,8 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",
-    "web-vitals": "^1.1.0",
-    "home": "paulalenisb.github.io/weather-spa"
+    "web-vitals": "^1.1.0"
+    
   },
   "scripts": {
     "start": "react-scripts start",
@@ -20,7 +21,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeply": "npm run build",
-    "deploy": "gh-pages -d build -r https://$PL_TOKEN@github.com/paulalenisb/weather-spa "
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
