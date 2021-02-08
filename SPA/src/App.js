@@ -61,7 +61,7 @@ export default function App() {
             
         <div className='container p-4 '>
             <div className='row'>
-                <div className='col-md-8 mx-auto'>
+                <div className='col-md-10 mx-auto'>
                     <WeatherInput
                         data={Api}
                         query={query}
@@ -101,19 +101,19 @@ export default function App() {
                     {(typeof nextDays.list != "undefined")  && (date==='days') ? (
                         <div>
                             <div className="card">
-                                <div className="card-body">
+                                <div className="card-body center">
                                     <LineChart
                                         width={500}
                                         height={300}
                                         data={data}
-                                        margin={{top: 5, right: 30, left: 20, bottom: 5,}}>
+                                        margin={{top: 5, right: 100, left: 0, bottom: 5,}}>
                                                 <CartesianGrid strokeDasharray="3 3" />
                                                 <XAxis dataKey='day'/>
                                                 <XAxis dataKey='time'/>
                                                 <YAxis domain={[0, ' + 1000']}          allowDataOverflow={true} />
                                                 <Tooltip />
                                                 <Legend />
-                                                <Line type="monotone"                   dataKey='temp_min' stroke="#4582ec" activeDot={{ stroke: 'red', strokeWidth: 2, r: 1}} />
+                                                <Line type="monotone"                   dataKey='temp_min' stroke="#4582ec" activeDot={{  r: 8 }} />
                                                 <Line type="monotone" dataKey='temp_max'  stroke="#000" activeDot={{ r: 8 }} />
                                         </LineChart>
                                 </div>

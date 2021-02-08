@@ -32,10 +32,15 @@ export default function TodayWheaterInfo({weather}) {
                 </div>
             </div>
         </div>
+        {/* {
+            if (showMore === false) {
+
+            }
+        } */}
         <button 
             type="button" 
             className="btn btn-primary btn-lg btn-block"
-            onClick={()=>setShowMore(true)}>More info</button>
+            onClick={()=>setShowMore(close => !close)}>More info</button>
         {
             showMore ? (
             <div className="card-group">
